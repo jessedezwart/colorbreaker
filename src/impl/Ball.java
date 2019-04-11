@@ -8,6 +8,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.util.ArrayList;
+import com.studiohartman.jamepad.ControllerManager;
+import com.studiohartman.jamepad.ControllerState;
 
 public class Ball extends Element implements Collidable, KeyBehavior {
 
@@ -15,18 +17,24 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     private double deltaX;
     private double ballSpeed;
     public double directionDegrees = Math.random()*360;
+    ControllerManager controllers = new ControllerManager();
     
-
-
 
     public Ball() {
         super("/resources/ball.png");
         this.deltaY = 0;
         this.deltaX = 0;
         this.autosize();
-        ballSpeed = 5;
+        this.resetBall();
+        controllers.initSDLGamepad();
     }
+    
 
+    public void resetBall() {
+    	ballSpeed = 0;
+    	this.setX(100);
+        this.setY(100);
+    }
 
     @Override
     public void handleKeyPresses(ArrayList<String> arrayList) {
@@ -54,6 +62,13 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         	this.reverseBall("horizontal");
         }
         
+        ControllerState currState = controllers.getState(0);
+        if(currState.b) {
+        	if (ballSpeed == 0) {
+        		ballSpeed = 15;
+        	}
+        }
+        
         //System.out.println(this.getX() + "," + this.getY());
     }
     
@@ -63,7 +78,6 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     		ballSpeed *= 1.003;
     		if (ballSpeed > 15) {
     			ballSpeed = 15;
-    		
     		}
   
     		if (((BreakBlockRed) collidable).active == true) {

@@ -12,13 +12,15 @@ public class Plankje extends Element implements Collidable, KeyBehavior {
 
     private double deltaY;
     private double deltaX;
+    ControllerManager controllers = new ControllerManager();
+    
 
     public Plankje() {
         super("/resources/plankje.png");
         this.deltaY = 0;
         this.deltaX = 0;
         this.autosize();
-        
+        controllers.initSDLGamepad();
     }
 
 
@@ -35,8 +37,6 @@ public class Plankje extends Element implements Collidable, KeyBehavior {
             this.deltaX = -10;
         }
         
-        ControllerManager controllers = new ControllerManager();
-        controllers.initSDLGamepad();
         ControllerState currState = controllers.getState(0);
         
         if(currState.dpadRight) {

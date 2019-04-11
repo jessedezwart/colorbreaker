@@ -79,8 +79,6 @@ public class Runner extends Application {
         
         Engine engine = new Engine(game);
         
-        engine.addBehavior(MoveOnMouseMove.class,new MouseMoveManager());
-        
         engine.start(primaryStage);
         engine.focusOnElement(null);
         
