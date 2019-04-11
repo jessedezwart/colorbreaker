@@ -84,7 +84,6 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         	}
         }
         
-        //System.out.println(this.getX() + "," + this.getY());
     }
     
     @Override
@@ -145,11 +144,11 @@ public class Ball extends Element implements Collidable, KeyBehavior {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-        		try {
+        		/* try {
 					TimeUnit.SECONDS.sleep(5);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
+				} */
         		System.exit(0);
     		}
 	    }
