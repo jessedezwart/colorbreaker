@@ -48,10 +48,18 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         
         if (this.getX() > 940 || this.getX() < 60) {
         	this.reverseBall("vertical");
+        	String musicborder = System.getProperty("user.dir") + "\\src\\resources\\border.wav";
+		    Media sound = new Media(new File(musicborder).toURI().toString());
+		    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+		    mediaPlayer.play();
         }
         
         if (this.getY() < 60 || this.getY() > 940) {
         	this.reverseBall("horizontal");
+        	String musicborder = System.getProperty("user.dir") + "\\src\\resources\\border.wav";
+		    Media sound = new Media(new File(musicborder).toURI().toString());
+		    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+		    mediaPlayer.play();
         }
         
         //System.out.println(this.getX() + "," + this.getY());
@@ -60,7 +68,7 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     @Override
     public void handleCollision(Collidable collidable) {
     	if(collidable instanceof BreakBlockRed){
-    		ballSpeed *= 1.003;
+    		ballSpeed *= 1.002;
     		if (ballSpeed > 15) {
     			ballSpeed = 15;
     		

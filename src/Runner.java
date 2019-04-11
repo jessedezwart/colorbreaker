@@ -79,12 +79,11 @@ public class Runner extends Application {
         
         Engine engine = new Engine(game);
         
-        engine.addBehavior(MoveOnMouseMove.class,new MouseMoveManager());
         
         engine.start(primaryStage);
         engine.focusOnElement(null);
         
-        Scoreboard player1 = new Scoreboard(450, 50, 0, primaryStage);
+        Scoreboard player1 = new Scoreboard(420, 50, 0, primaryStage);
         player1.setScore(0);
     }
 }
