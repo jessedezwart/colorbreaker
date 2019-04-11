@@ -114,6 +114,9 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     		}
 	    }
     	
+    	if(collidable instanceof PlankjeL){
+    		this.reverseBall("left");
+	    }
     	if(collidable instanceof PlankjeR){
     		this.reverseBall("right");
 	    }
