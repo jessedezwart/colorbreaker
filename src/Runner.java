@@ -78,8 +78,6 @@ public class Runner extends Application {
         game.setActiveLevel(game.getLevels().get(0));
         
         Engine engine = new Engine(game);
-        
-        
         engine.start(primaryStage);
         engine.focusOnElement(null);
         
