@@ -92,8 +92,12 @@ public class Runner extends Application {
         HashMap<Integer, Class<? extends Element>> elementHashMap = new HashMap<>();
         elementHashMap.put(0, Ball.class);
         elementHashMap.put(2, BreakBlockRed.class);
-        elementHashMap.put(3, Plankje.class);
+        elementHashMap.put(3, PlankjeL.class);
         elementHashMap.put(4, Lava.class);
+        elementHashMap.put(5, PlankjeR.class);
+        elementHashMap.put(6, PlankjeM.class);
+        elementHashMap.put(7, PlankjeLM.class);
+        elementHashMap.put(8, PlankjeRM.class);
         gameLoader.addElementsConfiguration(elementHashMap);
 
         gameLoader.addLevel(1,"/resources/level1Tiles.txt","/resources/level1Elements.txt");

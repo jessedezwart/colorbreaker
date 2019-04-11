@@ -58,8 +58,9 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         this.deltaX = directionX;
         
         super.setY(super.getY()+directionY);
-        this.deltaX = directionY;
+        this.deltaY = directionY;
         
+        //reverse ball en speel geluid
         if (this.getX() > 940 || this.getX() < 60) {
         	this.reverseBall("vertical");
         	String musicborder = System.getProperty("user.dir") + "\\src\\resources\\border.wav";
@@ -113,8 +114,17 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     		}
 	    }
     	
-    	if(collidable instanceof Plankje){
-    		reverseBall("horizontal");
+    	if(collidable instanceof PlankjeR){
+    		this.reverseBall("right");
+	    }
+    	if(collidable instanceof PlankjeM){
+    		this.reverseBall("middle");
+	    }
+    	if(collidable instanceof PlankjeLM){
+    		this.reverseBall("lmiddle");
+	    }
+    	if(collidable instanceof PlankjeRM){
+    		this.reverseBall("rmiddle");
 	    }
     	
     	if(collidable instanceof Lava){
@@ -149,6 +159,21 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     	}
     	if (direction == "horizontal") {
     		directionDegreesNew = this.directionDegrees -= (this.directionDegrees-180)*2;
+    	}
+    	if (direction == "left") {
+    		directionDegreesNew = this.directionDegrees = Math.random()*10 + 200;
+    	}
+    	if (direction == "right") {
+    		directionDegreesNew = this.directionDegrees = Math.random()*10 + 330;
+    	}
+    	if (direction == "middle") {
+    		directionDegreesNew = this.directionDegrees = Math.random()*10 + 265;
+    	}
+    	if (direction == "lmiddle") {
+    		directionDegreesNew = this.directionDegrees = Math.random()*10 + 240;
+    	}
+    	if (direction == "rmiddle") {
+    		directionDegreesNew = this.directionDegrees = Math.random()*10 + 290;
     	}
     	
         this.directionDegrees = directionDegreesNew;
