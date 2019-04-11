@@ -1,0 +1,39 @@
+image: mjalas/javafx
+
+before_script:
+  - mkdir $HOME/.ssh
+  - chmod 700 $HOME/.ssh
+  - echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_ecdsa
+  - chmod 600 $HOME/.ssh/id_ecdsa
+  - cat $HOME/.ssh/id_ecdsa
+
+after_script:
+  - rm -rf $HOME/.ssh
+
+stages:
+- test
+- build
+
+test:
+  stage: test
+  script:
+  - wget -O junit-4.12.jar "https://search.maven.org/remotecontent?filepath=junit/junit/4.12/junit-4.12.jar"
+  - wget -O hamcrest-core-1.3.jar "http://central.maven.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"
+  - mkdir outTest
+  - cd test
+  - javac -d ../outTest -cp ../junit-4.12.jar:../src:../src/resources/gameEngine.jar:. TestSuite.java
+  - cp -R ../src/resources ../outTest/resources
+  - cd ../outTest
+  - java -cp .:../junit-4.12.jar:../hamcrest-core-1.3.jar:../src/resources/gameEngine.jar org.junit.runner.JUnitCore TestSuite
+
+
+build:
+  stage: build
+  script:
+  - mkdir out
+  - cd src
+  - javac -d ../out -cp resources/gameEngine.jar:. Runner.java
+  - cp -R resources ../out/resources
+  - cd ../out
+  - jar cvfm game.jar ../MANIFEST.MF * resources
+  - scp -o StrictHostKeyChecking=no -i $HOME/.ssh/id_ecdsa game.jar mazerunner@www.se-challenge.nl:games/$CI_PROJECT_NAME.jar
