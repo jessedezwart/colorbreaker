@@ -8,12 +8,17 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class Runner extends Application {
 	
@@ -24,21 +29,45 @@ public class Runner extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-
+    	Label usernameLbl = new Label("Username:");
+    	TextField usernameTxt = new TextField();
+    	Label passwordLbl = new Label("Password:");
+    	TextField passwordTxt = new TextField();
         Button startGameButton = new Button("Start Game");
         Button highScoreButton = new Button("Highscores");
-        Label label = new Label("inloggen");
 
+       
         startGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                startGame(primaryStage);
+            	String username = usernameTxt.getText();
+            	String password = passwordTxt.getText();
+            	
+            	if (usernameTxt.getText().isEmpty() || passwordTxt.getText().isEmpty()) {
+            		Alert alert = new Alert(AlertType.INFORMATION);
+            		alert.setTitle("Oops!");
+            		alert.setHeaderText(null);
+            		alert.setContentText("It seems you got incorrect credentials!");
+            		alert.showAndWait();
+            	} else {
+            		User user = new User();
+                    if (user.checkCredentials(username, password) == 0) {
+                    	startGame(primaryStage);
+                    } else {
+                    	Alert alert = new Alert(AlertType.INFORMATION);
+                		alert.setTitle("Oops!");
+                		alert.setHeaderText(null);
+                		alert.setContentText("It seems you got incorrect credentials!");
+                		alert.showAndWait();
+                    }
+            	}
+            	
+            	
             }
         });
 
-
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(startGameButton,highScoreButton, label);
+        vBox.getChildren().addAll(usernameLbl,usernameTxt,passwordLbl,passwordTxt,startGameButton,highScoreButton);
 
 
         BorderPane borderPane = new BorderPane();
@@ -54,6 +83,7 @@ public class Runner extends Application {
     	
         GameLoader gameLoader = new GameLoader();
 
+        //init tiles
         HashMap<Integer, Class<? extends Tile>> tileHashMap = new HashMap<>();
         tileHashMap.put(0,BackgroundTile.class);
         tileHashMap.put(1,BorderTileL.class);
@@ -63,6 +93,7 @@ public class Runner extends Application {
         tileHashMap.put(5,BorderTileCR.class);
         gameLoader.addTileConfiguration(tileHashMap);
 
+        //init elements
         HashMap<Integer, Class<? extends Element>> elementHashMap = new HashMap<>();
         elementHashMap.put(0, Ball.class);
         elementHashMap.put(2, BreakBlockRed.class);

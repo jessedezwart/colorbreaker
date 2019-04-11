@@ -71,4 +71,12 @@ public class Plankje extends Element implements Collidable, KeyBehavior {
     public void setDeltaX(double deltaX) {
         this.deltaX = deltaX;
     }
+    
+    public double getterX() {
+        return this.getX();
+    }
+    
+    public double getterY() {
+        return this.getY();
+    }
 }

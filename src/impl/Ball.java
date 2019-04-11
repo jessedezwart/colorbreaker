@@ -32,8 +32,8 @@ public class Ball extends Element implements Collidable, KeyBehavior {
 
     public void resetBall() {
     	ballSpeed = 0;
-    	this.setX(100);
-        this.setY(100);
+    	this.setX(450);
+        this.setY(835);
     }
 
     @Override
@@ -71,14 +71,9 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         }
         
         ControllerState currState = controllers.getState(0);
-        if(currState.b) {
+        if(currState.b || arrayList.contains("SPACE")) {
         	if (ballSpeed == 0) {
-        		ballSpeed = 15;
-        	}
-        }
-        if (arrayList.contains("SPACE")) {
-        	if (ballSpeed == 0) {
-        		ballSpeed = 15;
+        		ballSpeed = 5;
         	}
         }
         
@@ -93,13 +88,19 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     			ballSpeed = 15;
     		}
   
+    		// check of breakblock wel bestaat met if statement
     		if (((BreakBlockRed) collidable).active == true) {
+    			//speel break geluid
     			System.out.println(System.getProperty("user.dir"));
     		    String musicFile = System.getProperty("user.dir") + "\\src\\resources\\bump.wav";
     		    Media sound = new Media(new File(musicFile).toURI().toString());
     		    MediaPlayer mediaPlayer = new MediaPlayer(sound);
     			mediaPlayer.play();
-    			this.reverseBall("horizontal");
+    			
+    			//draai de ball
+    			reverseBall("horizontal");
+    			
+    			//zet het blokje uit
     			((BreakBlockRed) collidable).active = false;
     			((BreakBlockRed) collidable).setVisible(false);
     			Scoreboard.plusScore();
@@ -107,8 +108,13 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     			
     		}
 	    }
+    	
     	if(collidable instanceof Plankje){
-    		this.reverseBall("horizontal");
+    		reverseBall("horizontal");
+	    }
+    	
+    	if(collidable instanceof Lava){
+    		resetBall();
 	    }
     }
 
