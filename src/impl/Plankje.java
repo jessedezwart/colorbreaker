@@ -5,7 +5,6 @@ import behavior.behaviors.Collidable;
 import behavior.behaviors.KeyBehavior;
 import game.Element;
 import java.util.ArrayList;
-
 import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
 

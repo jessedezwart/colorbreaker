@@ -1,7 +1,5 @@
-import engine.Camera;
 import engine.Engine;
 import engine.GameLoader;
-import engine.Renderer;
 import game.Element;
 import game.Game;
 import game.Tile;
@@ -15,10 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import service.FirebaseService;
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 public class Runner extends Application {

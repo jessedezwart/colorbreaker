@@ -4,9 +4,10 @@ package impl;
 import behavior.behaviors.Collidable;
 import behavior.behaviors.KeyBehavior;
 import game.Element;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.File;
 import java.util.ArrayList;
-
-import com.studiohartman.jamepad.ControllerManager;
 
 public class Ball extends Element implements Collidable, KeyBehavior {
 
@@ -17,14 +18,13 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     
 
 
+
     public Ball() {
         super("/resources/ball.png");
         this.deltaY = 0;
         this.deltaX = 0;
         this.autosize();
         ballSpeed = 5;
-        
-        
     }
 
 
@@ -56,19 +56,27 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         
         //System.out.println(this.getX() + "," + this.getY());
     }
-
+    
     @Override
     public void handleCollision(Collidable collidable) {
     	if(collidable instanceof BreakBlockRed){
-    		ballSpeed *= 1.025;
+    		ballSpeed *= 1.003;
     		if (ballSpeed > 15) {
     			ballSpeed = 15;
+    		
     		}
+  
     		if (((BreakBlockRed) collidable).active == true) {
+    			System.out.println(System.getProperty("user.dir"));
+    		    String musicFile = System.getProperty("user.dir") + "\\src\\resources\\bump.wav";
+    		    Media sound = new Media(new File(musicFile).toURI().toString());
+    		    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+    			mediaPlayer.play();
     			this.reverseBall("horizontal");
     			((BreakBlockRed) collidable).active = false;
     			((BreakBlockRed) collidable).setVisible(false);
     			Scoreboard.plusScore();
+    			
     			
     		}
 	    }
