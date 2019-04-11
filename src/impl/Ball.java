@@ -4,10 +4,14 @@ package impl;
 import behavior.behaviors.Collidable;
 import behavior.behaviors.KeyBehavior;
 import game.Element;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
 
@@ -16,7 +20,8 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     private double deltaY;
     private double deltaX;
     private double ballSpeed;
-    public double directionDegrees = Math.random()*360;
+    private int lives;
+    public double directionDegrees = 270;
     ControllerManager controllers = new ControllerManager();
     
 
@@ -24,6 +29,7 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         super("/resources/ball.png");
         this.deltaY = 0;
         this.deltaX = 0;
+        this.lives = 3;
         this.autosize();
         this.resetBall();
         controllers.initSDLGamepad();
@@ -104,8 +110,6 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     			((BreakBlockRed) collidable).active = false;
     			((BreakBlockRed) collidable).setVisible(false);
     			Scoreboard.plusScore();
-    			
-    			
     		}
 	    }
     	
@@ -115,6 +119,26 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     	
     	if(collidable instanceof Lava){
     		resetBall();
+    		this.lives -= 1;
+    		if (lives == 0) {
+    			//game over!
+    			Alert alert = new Alert(AlertType.INFORMATION);
+        		alert.setTitle("You dead!");
+        		alert.setHeaderText(null);
+        		alert.setContentText("Nice try. Score: " + Scoreboard.getScore());
+        		alert.show();
+        		try {
+					User.setScore(Scoreboard.getScore(), User.getUsername());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+        		try {
+					TimeUnit.SECONDS.sleep(5);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+        		System.exit(0);
+    		}
 	    }
     }
 

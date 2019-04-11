@@ -3,10 +3,17 @@ package impl;
 import java.io.*;
 import java.util.*;
 
-public class User {
-	public String username;
-	public int highscore;
+import service.FirebaseService;
 
+public class User {
+	public static String username;
+	public static final String GROUP_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1ODQ3MTEyNDQsInYiOjAsImlhdCI6MTU1NDM3MDM3MSwiZCI6eyJ1aWQiOiJkYTBhYTZkMy02M2JkLTQxM2EtOGQyYS04YWYxOTA3N2YzNTYifX0.4Qw3u05K-sdKsR4ERGOHiobOlClrKAq00Ntg0sllMYU";
+	public static final String GROUP_NAME = "Donald Knuth";
+
+	public static String getUsername() {
+		return username;
+	}
+	
 	public int checkCredentials(String usernameToCheck, String passwordToCheck)  {
 		List<List<String>> records = new ArrayList<>();
 		String filePath = System.getProperty("user.dir") + "\\src\\resources\\wachtwoorden.csv";
@@ -31,5 +38,11 @@ public class User {
 			System.out.println(e.getMessage());
 		}
 		return 1; //user not found
+	}
+	
+	
+	public static void setScore(int score, String username) throws Exception {
+		FirebaseService firebaseService = new FirebaseService();
+		firebaseService.saveHighscore(GROUP_NAME, GROUP_TOKEN, score, username);
 	}
 }
