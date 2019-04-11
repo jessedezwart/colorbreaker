@@ -76,6 +76,11 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         		ballSpeed = 15;
         	}
         }
+        if (arrayList.contains("SPACE")) {
+        	if (ballSpeed == 0) {
+        		ballSpeed = 15;
+        	}
+        }
         
         //System.out.println(this.getX() + "," + this.getY());
     }
