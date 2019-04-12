@@ -10,7 +10,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
@@ -63,18 +62,12 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         //reverse ball en speel geluid
         if (this.getX() > 940 || this.getX() < 60) {
         	this.reverseBall("vertical");
-        	String musicborder = System.getProperty("user.dir") + "\\src\\resources\\border.wav";
-		    Media sound = new Media(new File(musicborder).toURI().toString());
-		    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-		    mediaPlayer.play();
+        	playSound("border");
         }
         
         if (this.getY() < 60 || this.getY() > 940) {
         	this.reverseBall("horizontal");
-        	String musicborder = System.getProperty("user.dir") + "\\src\\resources\\border.wav";
-		    Media sound = new Media(new File(musicborder).toURI().toString());
-		    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-		    mediaPlayer.play();
+        	playSound("border");
         }
         
         ControllerState currState = controllers.getState(0);
@@ -84,6 +77,13 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         	}
         }
         
+    }
+    
+    public void playSound(String soundType) {
+    	String musicborder = System.getProperty("user.dir") + "\\src\\resources\\" + soundType + ".wav";
+	    Media sound = new Media(new File(musicborder).toURI().toString());
+	    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+	    mediaPlayer.play();
     }
     
     @Override
@@ -97,11 +97,7 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     		// check of breakblock wel bestaat met if statement
     		if (((BreakBlockRed) collidable).active == true) {
     			//speel break geluid
-    			System.out.println(System.getProperty("user.dir"));
-    		    String musicFile = System.getProperty("user.dir") + "\\src\\resources\\bump.wav";
-    		    Media sound = new Media(new File(musicFile).toURI().toString());
-    		    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-    			mediaPlayer.play();
+    			playSound("bump");
     			
     			//draai de ball
     			reverseBall("horizontal");
