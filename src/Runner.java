@@ -6,6 +6,8 @@ import game.Tile;
 import impl.*;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -29,6 +31,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import service.FirebaseService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -106,25 +109,21 @@ public class Runner extends Application {
             	JSONObject json = new JSONObject(firebaseJSON);
             	Iterator<?> keys = json.keys();
 
+            	
+            	
+            	
             	int i = 0;
-            	
-            	TableView table = new TableView();
-                TableColumn nameCol = new TableColumn("Name");
-                TableColumn scoreCol = new TableColumn("Highscore");
-                table.getColumns().addAll(nameCol, scoreCol);
-            	
+            	String highScores = null;
             	while( keys.hasNext() ) {
             	    String key = (String)keys.next();
             	    JSONObject scoreObj = new JSONObject();
             	    if ( json.get(key) instanceof JSONObject ) {
             	         scoreObj = json.getJSONObject(key);
             	         String playerName = scoreObj.getString("playerName");
-            	         nameCol.setCellValueFactory(c -> new SimpleStringProperty(new String(playerName)));
             	         int score = scoreObj.getInt("score");
+            	         System.out.println(score);
             	         String scoreStr = Integer.toString(score);
-                         scoreCol.setCellValueFactory(c -> new SimpleStringProperty(new String(scoreStr)));
-                         
-                         table.getItems().add(i, "");
+            	         highScores = highScores + playerName + " - " + scoreStr + "\r\n";
             	    }
             	    i++;
             	    
@@ -133,12 +132,13 @@ public class Runner extends Application {
 
             	
             	Label title = new Label("Highscores: ");
+            	Label highscores = new Label(highScores);
                 title.setTextFill(Color.BLACK);
                 title.setFont(Font.font("ARIAL", FontWeight.BOLD, 36));
                 
                 
-            	VBox vBox = new VBox();
-                vBox.getChildren().addAll(title, table);
+                VBox vBox = new VBox();
+                vBox.getChildren().addAll(title, highscores);
                 vBox.setPadding(new Insets(10, 10, 10, 10));
                 vBox.setSpacing(10);
 
