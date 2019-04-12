@@ -10,6 +10,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.studiohartman.jamepad.ControllerManager;
 import com.studiohartman.jamepad.ControllerState;
@@ -20,7 +21,8 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     private double deltaX;
     private double ballSpeed;
     private int lives;
-    public double directionDegrees = 290;
+    public double directionDegrees;
+    
     ControllerManager controllers = new ControllerManager();
     
 
@@ -31,6 +33,11 @@ public class Ball extends Element implements Collidable, KeyBehavior {
         this.lives = 3;
         this.autosize();
         this.resetBall();
+        Random r = new Random();
+        int low = 190;
+        int high = 350;
+        int result = r.nextInt(high-low) + low;
+        directionDegrees = result;
         controllers.initSDLGamepad();
     }
     
