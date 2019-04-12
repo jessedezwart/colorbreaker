@@ -16,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -29,7 +30,11 @@ import javafx.stage.Stage;
 import service.FirebaseService;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,7 +55,7 @@ public class Runner extends Application {
     	TextField usernameTxt = new TextField();
     	Label passwordLbl = new Label("Password:");
     	passwordLbl.setFont(Font.font("ARIAL", FontWeight.BOLD, 16));
-    	TextField passwordTxt = new TextField();
+    	PasswordField passwordTxt = new PasswordField();
         Button startGameButton = new Button("Start Game");
         Button highScoreButton = new Button("Highscores");
         
@@ -93,23 +98,39 @@ public class Runner extends Application {
             	String firebaseJSON = null;
             	FirebaseService firebaseService = new FirebaseService();
             	try {
-            		firebaseJSON = "[" + firebaseService.getHighscores("Donald Knuth") + "]";
+            		firebaseJSON = firebaseService.getHighscores("Donald Knuth");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
             	
+            	JSONObject json = new JSONObject(firebaseJSON);
+            	Iterator<?> keys = json.keys();
 
+            	int i = 0;
+            	
             	TableView table = new TableView();
                 TableColumn nameCol = new TableColumn("Name");
                 TableColumn scoreCol = new TableColumn("Highscore");
                 table.getColumns().addAll(nameCol, scoreCol);
+            	
+            	while( keys.hasNext() ) {
+            	    String key = (String)keys.next();
+            	    JSONObject scoreObj = new JSONObject();
+            	    if ( json.get(key) instanceof JSONObject ) {
+            	         scoreObj = json.getJSONObject(key);
+            	         String playerName = scoreObj.getString("playerName");
+            	         nameCol.setCellValueFactory(c -> new SimpleStringProperty(new String(playerName)));
+            	         int score = scoreObj.getInt("score");
+            	         String scoreStr = Integer.toString(score);
+                         scoreCol.setCellValueFactory(c -> new SimpleStringProperty(new String(scoreStr)));
+                         
+                         table.getItems().add(i, "");
+            	    }
+            	    i++;
+            	    
+            	}
                 
-                
-                
-                nameCol.setCellValueFactory(c -> new SimpleStringProperty(new String("123")));
-                scoreCol.setCellValueFactory(c -> new SimpleStringProperty(new String("456")));
 
-                table.getItems().addAll("Column one's data", "Column two's data");
             	
             	Label title = new Label("Highscores: ");
                 title.setTextFill(Color.BLACK);
@@ -163,8 +184,12 @@ public class Runner extends Application {
         HashMap<Integer, Class<? extends Element>> elementHashMap = new HashMap<>();
         elementHashMap.put(0, Ball.class);
         elementHashMap.put(2, BreakBlockRed.class);
-        elementHashMap.put(3, Plankje.class);
+        elementHashMap.put(3, PlankjeL.class);
         elementHashMap.put(4, Lava.class);
+        elementHashMap.put(5, PlankjeR.class);
+        elementHashMap.put(6, PlankjeM.class);
+        elementHashMap.put(7, PlankjeLM.class);
+        elementHashMap.put(8, PlankjeRM.class);
         gameLoader.addElementsConfiguration(elementHashMap);
 
         gameLoader.addLevel(1,"/resources/level1Tiles.txt","/resources/level1Elements.txt");
