@@ -5,6 +5,5 @@
 	<classpathentry exported="true" kind="lib" path="src/resources/gameEngine3.jar"/>
 	<classpathentry exported="true" kind="lib" path="src/resources/Jamepad.jar"/>
 	<classpathentry exported="true" kind="lib" path="src/resources/json-20180813.jar"/>
-	<classpathentry exported="true" kind="lib" path="src/resources/gson-2.8.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
