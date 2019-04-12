@@ -6,16 +6,21 @@ import behavior.behaviors.KeyBehavior;
 import game.Element;
 import java.util.ArrayList;
 
+import com.studiohartman.jamepad.ControllerManager;
+import com.studiohartman.jamepad.ControllerState;
+
 public class PlankjeLM extends Element implements Collidable, KeyBehavior {
 
     private double deltaY;
     private double deltaX;
+    ControllerManager controllers = new ControllerManager();
 
     public PlankjeLM() {
         super("/resources/plankjeM.png");
         this.deltaY = 0;
         this.deltaX = 0;
         this.autosize();
+        controllers.initSDLGamepad();
     }
 
 
@@ -23,19 +28,28 @@ public class PlankjeLM extends Element implements Collidable, KeyBehavior {
     public void handleKeyPresses(ArrayList<String> arrayList) {
         this.deltaX = 0;
         this.deltaY = 0;
-        if (arrayList.contains("RIGHT")){
-            super.setX(super.getX()+15);
-            this.deltaX = 10;
-            if (this.getX() > 740) {
-            	super.setX (740);
-            	}
+        ControllerState currState = controllers.getState(0);
+        if (arrayList.contains("LEFT") || currState.dpadLeft){
+            moveLeft();
         }
-        else if (arrayList.contains("LEFT")){
-            super.setX(super.getX()-15);
-            this.deltaX = -10;
-            if (this.getX() < 110) {
-            	super.setX (110);
-            	}
+        else if (arrayList.contains("RIGHT") || currState.dpadRight){
+            moveRight();
+        }
+    }
+    
+    public void moveRight() {
+    	super.setX(super.getX()+15);
+        this.deltaX = 10;
+        if (this.getX() > 740) {
+        	super.setX (740);
+        }
+    }
+    
+    public void moveLeft() {
+    	super.setX(super.getX()-15);
+        this.deltaX = -10;
+        if (this.getX() < 110) {
+        	super.setX (110);
         }
     }
 
