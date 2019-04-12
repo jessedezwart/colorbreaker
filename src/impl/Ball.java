@@ -156,27 +156,29 @@ public class Ball extends Element implements Collidable, KeyBehavior {
 
     public void reverseBall(String direction) {
     	double directionDegreesNew = 0;
-    	if (direction == "vertical") {
-    		directionDegreesNew = this.directionDegrees -= (this.directionDegrees-270)*2;
-    	}
-    	if (direction == "horizontal") {
-    		directionDegreesNew = this.directionDegrees -= (this.directionDegrees-180)*2;
-    	}
-    	if (direction == "left") {
-    		directionDegreesNew = this.directionDegrees = Math.random()*10 + 200;
-    	}
-    	if (direction == "right") {
-    		directionDegreesNew = this.directionDegrees = Math.random()*10 + 330;
-    	}
-    	if (direction == "middle") {
-    		directionDegreesNew = this.directionDegrees = Math.random()*10 + 265;
-    	}
-    	if (direction == "lmiddle") {
-    		directionDegreesNew = this.directionDegrees = Math.random()*10 + 240;
-    	}
-    	if (direction == "rmiddle") {
-    		directionDegreesNew = this.directionDegrees = Math.random()*10 + 290;
-    	}
+    	switch(direction) {
+    	case "left":
+    		directionDegreesNew = directionDegrees = Math.random()*10 + 200;
+    		break;
+    	case "right":
+    		directionDegreesNew = directionDegrees = Math.random()*10 + 330;
+    		break;
+    	case "middle":
+    		directionDegreesNew = directionDegrees = Math.random()*10 + 265;
+    		break;
+    	case "lmiddle":
+    		directionDegreesNew = directionDegrees = Math.random()*10 + 240;
+    		break;
+    	case "rmiddle":
+    		directionDegreesNew = directionDegrees = Math.random()*10 + 290;
+    		break;
+    	case "horizontal":
+    		directionDegreesNew = directionDegrees -= (directionDegrees-180)*2;
+    		break;
+    	case "vertical":
+    		directionDegreesNew = directionDegrees -= (directionDegrees-270)*2;
+    		break;
+    	}	
     	
         this.directionDegrees = directionDegreesNew;
     }
