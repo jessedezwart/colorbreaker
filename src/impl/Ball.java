@@ -20,7 +20,7 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     private double deltaX;
     private double ballSpeed;
     private int lives;
-    public double directionDegrees = 270;
+    public double directionDegrees = 290;
     ControllerManager controllers = new ControllerManager();
     
 
@@ -80,10 +80,12 @@ public class Ball extends Element implements Collidable, KeyBehavior {
     }
     
     public void playSound(String soundType) {
-    	String musicborder = System.getProperty("user.dir") + "\\src\\resources\\" + soundType + ".wav";
-	    Media sound = new Media(new File(musicborder).toURI().toString());
-	    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-	    mediaPlayer.play();
+    	if (Runner.soundOn == true) {
+	    	String musicborder = System.getProperty("user.dir") + "\\src\\resources\\" + soundType + ".wav";
+		    Media sound = new Media(new File(musicborder).toURI().toString());
+		    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+		    mediaPlayer.play();
+    	}
     }
     
     @Override

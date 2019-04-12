@@ -1,3 +1,4 @@
+package impl;
 import engine.Engine;
 import engine.GameLoader;
 import game.Element;
@@ -17,16 +18,22 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import service.FirebaseService;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import org.json.JSONObject;
 
 public class Runner extends Application {
+	
+	static boolean soundOn = true;
 	
     public static void main(String[] args) {
         launch(args);
@@ -42,8 +49,24 @@ public class Runner extends Application {
     	passwordLbl.setFont(Font.font("ARIAL", FontWeight.BOLD, 16));
     	PasswordField passwordTxt = new PasswordField();
         Button startGameButton = new Button("Start Game");
+        Button soundButton = new Button("Toggle Sound");
         Button highScoreButton = new Button("Highscores");
        
+        soundButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	if (soundOn == false) {
+            		soundOn = true;
+            		String musicborder = System.getProperty("user.dir") + "\\src\\resources\\border.wav";
+            		Media sound = new Media(new File(musicborder).toURI().toString());
+            		MediaPlayer mediaPlayer = new MediaPlayer(sound);
+            		mediaPlayer.play();
+            	} else {
+            		soundOn = false;
+            	}
+            }
+        });
+        
         startGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -132,7 +155,7 @@ public class Runner extends Application {
         });
         
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(usernameLbl,usernameTxt,passwordLbl,passwordTxt,startGameButton,highScoreButton);
+        vBox.getChildren().addAll(usernameLbl,usernameTxt,passwordLbl,passwordTxt,startGameButton,highScoreButton,soundButton);
         vBox.setPadding(new Insets(10, 10, 10, 10));
         vBox.setSpacing(10);
 
